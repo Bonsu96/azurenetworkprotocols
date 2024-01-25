@@ -5,7 +5,13 @@
 
 <h1>Network Security Groups (NSGs) and Inspecting Traffic Between Azure Virtual Machines</h1>
 In this tutorial, we observe various network traffic to and from Azure Virtual Machines with Wireshark as well as experiment with Network Security Groups. <br />
+</p>
 
+What is Network Security Groups?
+
+**Network Security Groups (NSGs)** in Azure are a fundamental element of the network security model. They act as a basic, stateful, packet-filtering firewall that enables or denies inbound and outbound traffic to network interfaces (NIC), VMs, and subnets. NSGs can be associated with either subnets or individual NICs attached to Azure Virtual Machines.
+
+Each NSG contains a set of security rules that allow or deny traffic based on source and destination IP addresses, port ranges, and protocols. These rules are processed in priority order, with lower numbers having higher priority.
 
 <h2>Video Demonstration</h2>
 
@@ -24,35 +30,38 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
 - Windows 10 (21H2)
 - Ubuntu Server 20.04
 
-<h2>High-Level Steps</h2>
 
-- Step 1
-- Step 2
-- Step 3
-- Step 4
+### Tracking Traffic Between Virtual Machines in Azure:
 
-<h2>Actions and Observations</h2>
+To track traffic between virtual machines (VMs) in Azure, you can follow these steps:
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+1. **Understand NSG Rules:**
+   - Review and understand the NSG rules associated with the source and destination VMs. Ensure that the rules are configured to allow the desired traffic.
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+2. **Check NSG Associations:**
+   - Ensure that the NSG is associated with the correct subnet or NIC. If an NSG is not associated correctly, it may not be applying the rules to the traffic.
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+3. **Use Network Watcher:**
+   - Azure provides a tool called [Network Watcher](https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-monitoring-overview) that can help you monitor and diagnose network issues.
+   - You can use the "Traffic Analytics" feature within Network Watcher to get insights into traffic flows between your VMs.
+
+4. **Enable Diagnostic Logging:**
+   - Enable diagnostic logging for your network security group. This can be done in the Azure portal or using Azure PowerShell or Azure CLI.
+   - Diagnostic logs provide detailed information about NSG traffic, including allowed and denied traffic.
+
+   Example PowerShell command to enable NSG logs:
+
+   ```powershell
+   Set-AzNetworkWatcherConfigFlowLog -NetworkWatcher <NetworkWatcherName> -TargetResourceId <ResourceId> -Enabled $true
+   ```
+
+5. **Review Logs and Metrics:**
+   - Once diagnostic logging is enabled, you can review the logs in Azure Monitor. Logs provide information about allowed and denied traffic, helping you identify any issues.
+
+6. **Azure Monitor and Log Analytics:**
+   - Use Azure Monitor and Log Analytics to query and analyze logs for traffic patterns.
+   - Create custom queries to filter and search for specific traffic between VMs.
+
+Remember that traffic between VMs in the same subnet may not pass through the NSG if the NSG is associated with the subnet. However, if the VMs are in different subnets or if the NSG is associated with individual NICs, the NSG rules will be applied.
+
+Regularly review and update NSG rules based on your application requirements, and leverage Azure's monitoring and diagnostic tools to track and troubleshoot traffic between virtual machines.
